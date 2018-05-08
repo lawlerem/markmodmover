@@ -1,0 +1,40 @@
+Package: markmodmover
+Version: 0.0.0.9000
+Date: 2017-04-04
+Title: Analyze animal movement data using the Markov-modulated movement model.
+Description: Tools for the analysis of animal movement data using a 
+  discrete time Markov-switching autoregressive model (MS-AR), a generalization
+  of the well known hidden Markov model. Offers a convenient workflow for 
+  processing tracking data, visualizing and exploring data, fitting MS-AR 
+  models, diagnosing model fit, and predicting unobserved behavioural states.
+Authors@R: person("Ethan", "Lawler", email = "lawlerem@dal.ca", role = c("aut",
+  "cre"))
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+ByteCompile: true
+Imports: 
+    TMB,
+    MASS,
+    Rcpp,
+    RcppEigen
+Suggests: 
+    abind,
+    RColorBrewer,
+    knitr,
+    rmarkdown
+RoxygenNote: 6.0.1
+Collate: 
+    'classes.R'
+    'cpp.R'
+    'data.R'
+    'fit.R'
+    'geodesy.R'
+    'getset.R'
+    'genmet.R'
+    'showplot.R'
+LinkingTo: 
+    Rcpp,
+    RcppEigen,
+    TMB
+VignetteBuilder: knitr
