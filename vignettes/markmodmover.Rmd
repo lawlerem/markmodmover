@@ -62,7 +62,7 @@ Now we can see that our new interpolated data consists of `nrow(interpolatedLoca
 
 Now our `sealdata` object contains the observed locations, the interpolated locations, and also a set of step lengths and deflection angles. We can plot the object to get a sense of what all of these parts look like.
 
-```{r,fig.show='hold',cache=TRUE}
+```{r,fig.show='hold'}
 plot(sealdata)
 ```
 
@@ -77,7 +77,7 @@ head(viterbiPath(seal4M2))
 
 Our new `seal4M2` object contains all of the information stored in the `greyseal` object (it actually contains a copy of it) as well as the model definition (which is actually a copy of a `SetModel4M` object which we will look at in the advanced analysis), and a wealth of information concerning the fitted model. In addition to the parameter estimates, the `seal4M2` object holds the convergence message, the estimated behavioural state path, one-step ahead pseudoresiduals, and AIC. We can plot the interpolated locations with behavioural state estimates, as well as the residuals to check our model.
 
-```{r,cache=TRUE}
+```{r}
 plot(seal4M2,c("locations","residuals"))
 ```
 
@@ -123,7 +123,7 @@ timeGrid(sealdata)
 
 HERE WOULD BE A SECTION EXPLAINING OUTPUT OF `timeGrid` (bring up the definition of nprop and nadj).
 
-```{r,cache=TRUE}
+```{r}
 sealdata<- interpolate(sealdata,Time.Step = 66,units = "min")
 plot(sealdata,c("loc","data"))
 ```
@@ -136,7 +136,7 @@ At this point we look at the step length lag plot to determine whether we should
 
 Now let's plot the residuals to see if this three state HMM is actually a good model to use for this data.
 
-```{r,cache=TRUE}
+```{r}
 plot(sealHMM3,"residual")
 ```
 
@@ -162,7 +162,7 @@ rmse(sim4M3)
 
 The median state estimate error is `r median(stateError(sim4M3))`, but this could possibly be inflated by undetected non-convergent fits (see the later section on how to detect these). The package includes a function which returns a vector of indices showing which might be suspect.
 
-```{r,cache=TRUE}
+```{r}
 ( badSims<- simCheck(sim4M3) )
 sim4M3<- sim4M3[-badSims]
 summary(stateError(sim4M3))
@@ -180,7 +180,7 @@ Since the 4M is an extension of the HMM, the most intuitive way of finding out w
 
 To easily inspect one particular simulation we can use double bracket `[[` subsetting. Whereas before the single bracket `[` subsetter returned another `Simulate4M` object, the double bracket `[[` subsetter will return a `Model4M` object. The `Data4M` part of the object will come from the simulated data -- this always starts at the same initial location and time as the original data -- while the `SetModel4M` comes from whatever `SetModel4M` object was used to refit the simulations, and the rest of the object comes from the refit parameters.
 
-```{r,cache=TRUE,fig.height = 9}
+```{r,fig.height = 9}
 example4M3<- sim4M3[[1]]
 ( exampleHMM3<- simulate(sealHMM3,nsim = 1)[[1]] )
 plot(example4M3,"data",N.Greys = 50,N.Grid.Lines = 400)
