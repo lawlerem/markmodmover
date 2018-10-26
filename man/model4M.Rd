@@ -30,5 +30,7 @@ Consider using \code{fit} to create a new \code{Model4M} object.
 }
 \seealso{
 Other Construct4M: \code{\link{data4M}},
-  \code{\link{setModel4M}}, \code{\link{simulate4M}}
+  \code{\link{setModel4M}}, \code{\link{setSim4M}},
+  \code{\link{simulate4M}}
 }
+\concept{Construct4M}

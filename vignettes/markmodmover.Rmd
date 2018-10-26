@@ -2,7 +2,7 @@
 title: "Using MarkmodmoveR"
 author: "Ethan Lawler"
 date: "`r Sys.Date()`"
-output: 
+output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 3
@@ -140,7 +140,7 @@ Now let's plot the residuals to see if this three state HMM is actually a good m
 plot(sealHMM3,"residual")
 ```
 
-While the Q-Q plots both look good, the ACF plot and the lag plot both have undesirable properties. The ACF at lag 1 is close to around 0.4, and the lag plot shows that most of the residuals lie on the line `r_{t} = r_{t-1}` especially in the upper right corner. Physically, the residuals lying on the line means that the HMM  generally predicts step lengths which are too far away from the previous step length (since the residuals are more "average" than expected). The dark spot in the upper right corner means that "unusually" large step lengths are surprising after having just seen an "unusually" large step length. 
+While the Q-Q plots both look good, the ACF plot and the lag plot both have undesirable properties. The ACF at lag 1 is close to around 0.4, and the lag plot shows that most of the residuals lie on the line `r_{t} = r_{t-1}` especially in the upper right corner. Physically, the residuals lying on the line means that the HMM  generally predicts step lengths which are too far away from the previous step length (since the residuals are more "average" than expected). The dark spot in the upper right corner means that "unusually" large step lengths are surprising after having just seen an "unusually" large step length.
 
 This conditional autocorrelation is just the type of problem the 4M model was designed to overcome, so let's fit a three state 4M. We don't need to start all over: we can just re-`fit` our `sealHMM3` model.[^refitModel]
 
@@ -187,7 +187,7 @@ plot(example4M3,"data",N.Greys = 50,N.Grid.Lines = 400)
 plot(exampleHMM3,"data",N.Greys = 50,N.Grid.Lines = 400)
 ```
 
-Compare the upper plots for the simulated 4M data with the lower plots for the simulated HMM data. There are subtle differences in the "Deflection Angle and Step Length" plots. While the 4M data is more elliptical and the HMM is more rectangular, there is not much reason to believe this holds in general. 
+Compare the upper plots for the simulated 4M data with the lower plots for the simulated HMM data. There are subtle differences in the "Deflection Angle and Step Length" plots. While the 4M data is more elliptical and the HMM is more rectangular, there is not much reason to believe this holds in general.
 
 The "Step Length Lag Plot"s however, have differences which come with theoretical justification. As a result of the conditional (within-state) autocorrelation of the 4M, the lag plot has an oblongated smear lying very close to the line `d_{t} = d_{t-1}`.[^4Msmear] The HMM data more resembles rain droplets -- three circular patterns that correspond to the three states that the data were simulated from.
 
@@ -223,7 +223,7 @@ There will be some times when a model "converges" to a boundary of the parameter
 
 ## Figures
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+The figure sizes have been customised so that you can easily put two images side-by-side.
 
 ```{r, fig.show='hold'}
 plot(1:10)

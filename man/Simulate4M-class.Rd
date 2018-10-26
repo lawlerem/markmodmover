@@ -42,5 +42,7 @@ An S4 class for holding simulations from a \code{\link{Model4M}} class.
 \seealso{
 Other 4M-classes: \code{\link{Data4M-class}},
   \code{\link{Model4M-class}},
-  \code{\link{SetModel4M-class}}
+  \code{\link{SetModel4M-class}},
+  \code{\link{SetSim4M-class}}
 }
+\concept{4M-classes}

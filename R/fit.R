@@ -43,7 +43,7 @@ setMethod(f = "fit",
                                 stationary.tolerance = 4,
 #                                convergence.error = T,
                                 ...) {
-                
+
                 Turning.Angle.Data<- pi/180 * movementData(object)$Movement.Data$Deflection.Angle
                 Step.Length.Data<- movementData(object)$Movement.Data$Step.Length
                 Step.Length.Starting.Values<- movementData(object)$Step.Length.Starting.Values
@@ -61,43 +61,43 @@ setMethod(f = "fit",
                             step_zero_inflation = as.integer(zeroInflation(model)[["Step.Length"]]),
                             angle_zero_inflation = as.integer(zeroInflation(model)[["Deflection.Angle"]])
                             )
-                            
-                            
+
+
                 Internal.Environment<- environment()
-                            
-                
-                
+
+
+
                 for( i in seq(max.tries) ) {
                         Tpm.Working.Pars<- startingValues(model)$Tpm.Working.Pars
                         Tpm.Working.Pars[is.na(Tpm.Working.Pars)]<- runif(sum(is.na(Tpm.Working.Pars)),
-                                                                          min = -3,
-                                                                          max = 3)
-                        
+                                                                          min = -2,
+                                                                          max = 2)
+
                         Theta.Working.Pars<- startingValues(model)$Theta.Working.Pars
                         Theta.Working.Pars[is.na(Theta.Working.Pars)]<- runif(sum(is.na(Theta.Working.Pars)),
-                                                                              min = -3,
-                                                                              max = 3)
-                        
+                                                                              min = -2,
+                                                                              max = 2)
+
                         Step.Working.Pars<- startingValues(model)$Step.Working.Pars
                         Step.Working.Pars[is.na(Step.Working.Pars)]<- runif(sum(is.na(Step.Working.Pars)),
-                                                                            min = -3,
-                                                                            max = 3)
-                                                                          
+                                                                            min = -2,
+                                                                            max = 2)
+
                         Logit.Step.Zero.Probs<- startingValues(model)$Logit.Step.Zero.Probs
                         Logit.Step.Zero.Probs[is.na(Logit.Step.Zero.Probs)]<- runif(sum(is.na(Logit.Step.Zero.Probs)),
-                                                                                    min = -3,
-                                                                                    max = 3)
-                                                                          
+                                                                                    min = -2,
+                                                                                    max = 2)
+
                         Logit.Angle.Zero.Probs<- startingValues(model)$Logit.Angle.Zero.Probs
                         Logit.Angle.Zero.Probs[is.na(Logit.Angle.Zero.Probs)]<- runif(sum(is.na(Logit.Angle.Zero.Probs)),
-                                                                                    min = -3,
-                                                                                    max = 3)
-                                                                                    
+                                                                                    min = -2,
+                                                                                    max = 2)
+
                         Angle.Zero.Working.Pars<- startingValues(model)$Angle.Zero.Working.Pars
                         Angle.Zero.Working.Pars[is.na(Angle.Zero.Working.Pars)]<- runif(sum(is.na(Angle.Zero.Working.Pars)),
-                                                                                    min = -3,
-                                                                                    max = 3)
-                                                                                    
+                                                                                    min = -2,
+                                                                                    max = 2)
+
 
                         map<- parameterMapping(model)
                         if( useHMM(model) == T ){
@@ -108,21 +108,21 @@ setMethod(f = "fit",
                                 }
                                 map[["Step.Working.Pars"]][,2]<- NA ### Fix autocorrelation
                         } else {}
-                        
+
                         if( !zeroInflation(model)[["Step.Length"]] ) {
-                                Logit.Step.Zero.Probs[]<- -Inf 
+                                Logit.Step.Zero.Probs[]<- -Inf
                                 map[["Logit.Step.Zero.Probs"]][]<- NA
                         } else {}
-                        
+
                         if( !zeroInflation(model)[["Deflection.Angle"]] ) {
                                 Logit.Angle.Zero.Probs[]<- -Inf
                                 map[["Logit.Angle.Zero.Probs"]][]<- NA
-                                
+
                                 Angle.Zero.Working.Pars[,1]<- 0
                                 Angle.Zero.Working.Pars[,2]<- -Inf
                                 map[["Angle.Zero.Working.Pars"]][]<- NA
                         }
-                        
+
                         parameters<- list(tpm_working_pars_matrix = Tpm.Working.Pars,
                                           theta_working_pars = Theta.Working.Pars,
                                           dist_working_pars = Step.Working.Pars[,-2],
@@ -131,9 +131,9 @@ setMethod(f = "fit",
                                           logit_angle_zero_probs = Logit.Angle.Zero.Probs,
                                           angle_zero_working_pars = Angle.Zero.Working.Pars,
                                           dummy = 0)
-                                          
-                        
-                        
+
+
+
                         map<- list(tpm_working_pars_matrix = map$Tpm.Working.Pars,
                                    theta_working_pars = map$Theta.Working.Pars,
                                    dist_working_pars = map$Step.Working.Pars[,-2],
@@ -141,16 +141,16 @@ setMethod(f = "fit",
                                    logit_step_zero_probs = map$Logit.Step.Zero.Probs,
                                    logit_angle_zero_probs = map$Logit.Angle.Zero.Probs,
                                    angle_zero_working_pars = map$Angle.Zero.Working.Pars)
-                        
+
                         map<- lapply(map,as.factor)
 
-                        
+
                         Unordered.ADFun<- TMB::MakeADFun(data = data,
                                                   parameters = parameters,
                                                   map = c(map,list(dummy = as.factor(NA))),
                                                   DLL = DLL,
                                                   silent = T)
-                        
+
                         Unordered.Optim<- logical()
                         tryCatch({
                                 Unordered.Optim<- nlminb(Unordered.ADFun$par,
@@ -173,7 +173,7 @@ setMethod(f = "fit",
                         error = function(e) {}
                         )
                 }
-                
+
                 if( class(Unordered.Optim) == "logical" ) {
 #                        if( convergence.error == T ) {
                                 stop("Optimization did not work. Try increasing max.tries.")
@@ -186,13 +186,13 @@ setMethod(f = "fit",
 #                                       envir = Internal.Environment)
 #                        }
                 }
-                
-                
+
+
                 Unordered.Report<- Unordered.ADFun$report()
-                
-                
+
+
                 State.Order<- order(Unordered.Report$theta_pars[,2]) ### order by angle concentration parameter
-                
+
                 Tpm.Working.Pars<- Unordered.Report$tpm_working_pars_matrix[State.Order,State.Order]
                 Theta.Working.Pars<- Unordered.Report$theta_working_pars[State.Order,]
                 Step.Working.Pars[,c(1,3)]<- Unordered.Report$dist_working_pars[State.Order,]
@@ -209,17 +209,17 @@ setMethod(f = "fit",
                                           logit_angle_zero_probs = Logit.Angle.Zero.Probs,
                                           angle_zero_working_pars = Angle.Zero.Working.Pars,
                                           dummy = 0)
-                                          
+
                 map<- lapply(map,function(x) {
                                         x[]<- NA
                                         x<- as.factor(x)
                                         x<- droplevels(x)
                                         return(x)
                                  }
-                            ) 
-                
- 
-                
+                            )
+
+
+
                 Ordered.ADFun<- TMB::MakeADFun(data = data,
                                           parameters = parameters,
                                           map = map,
@@ -229,7 +229,7 @@ setMethod(f = "fit",
                                        Ordered.ADFun$fn,
                                        Ordered.ADFun$gr)
                 Report<- Ordered.ADFun$report()
-                
+
                 Parameter.Estimates<- list(
                         Deflection.Angle.Parameters = data.frame(Center = Report$theta_pars[,1],
                                                                  Concentration = Report$theta_pars[,2]),
@@ -247,20 +247,20 @@ setMethod(f = "fit",
                                 )
                         )
                 )
-                
+
                 Model.4M<- model4M(object,model)
-                
+
                 parameterEstimates(Model.4M)<- Parameter.Estimates
                 aic(Model.4M)<- 2*Ordered.Optim$objective + 2*(length(Unordered.Optim$par)-1)  ### Minus 1 to account for dummy = 0
                 viterbiPath(Model.4M)<- as.integer(Report$viterbi_path)
                 convergence(Model.4M)<- Unordered.Optim$message
                 tmbEnvironment(Model.4M)<- Ordered.ADFun$env
-                
+
                 if( Unordered.Optim$convergence != 0 ) {
                         warning("Optimization was not convergent.")
                 }
-                
-                
+
+
                 Data.Index<- seq(nrow(movementData(Model.4M)$Movement.Data))
                 Theta.Residuals<- sapply(Data.Index,function(k) {
                         quantile<- sum(Report$forecast[,k] %*% (Report$theta_cdf_array[,,k] %% 1))
@@ -270,10 +270,10 @@ setMethod(f = "fit",
                         quantile<- sum(Report$forecast[,k] %*% Report$dist_cdf_array[,,k])
                         return(2*quantile-1)
                 })
-                
+
                 residuals(Model.4M)<- data.frame(Deflection.Angle = Theta.Residuals,
                                                 Step.Length = Step.Residuals)
-                                                
+
                 return(Model.4M)
           }
 )
@@ -312,4 +312,3 @@ setMethod(f = "fit",
                 return(fit(data4M(object),SetModel4M(object),...))
           }
 )
-

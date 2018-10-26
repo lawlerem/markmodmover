@@ -31,5 +31,7 @@ The \code{initialize} function is not meant to be used by the user, use \code{da
 }
 \seealso{
 Other Construct4M: \code{\link{model4M}},
-  \code{\link{setModel4M}}, \code{\link{simulate4M}}
+  \code{\link{setModel4M}}, \code{\link{setSim4M}},
+  \code{\link{simulate4M}}
 }
+\concept{Construct4M}

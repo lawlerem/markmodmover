@@ -34,5 +34,7 @@ An S4 class to hold model definition and fitting parameters.
 \seealso{
 Other 4M-classes: \code{\link{Data4M-class}},
   \code{\link{Model4M-class}},
+  \code{\link{SetSim4M-class}},
   \code{\link{Simulate4M-class}}
 }
+\concept{4M-classes}

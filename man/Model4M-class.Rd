@@ -38,5 +38,7 @@ An S4 class for fitted models from \linkS4class{Data4M} and \linkS4class{SetMode
 \seealso{
 Other 4M-classes: \code{\link{Data4M-class}},
   \code{\link{SetModel4M-class}},
+  \code{\link{SetSim4M-class}},
   \code{\link{Simulate4M-class}}
 }
+\concept{4M-classes}

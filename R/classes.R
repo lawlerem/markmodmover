@@ -132,5 +132,29 @@ setClass(Class = "Simulate4M",
          contains = "Model4M"
 )
 
-
-
+#' An S4 class to hold model definition parameters for simulation.
+#'
+#' @family 4M-classes
+#'
+#' @slot Sim.Length A positive integer giving the number of observations to simulate.
+#' @slot N.States The number of states \code{n} used in the model.
+#' @slot Use.HMM If \code{TRUE} fixes autocorrelation to zero.
+#' @slot Distribution Distribution for step length. Can be one of \code{gamma} or \code{log-normal}.
+#' @slot Parameters A named list giving the parameter values to simulate from:
+#' \describe{
+#'   \item{Deflection.Angle.Parameters}{A data.frame with columns \code{Center} and \code{Concentration}.}
+#'   \item{Step.Length.Parameters}{A data.frame with columns \code{Intercept}, \code{Autocorrelation}, and \code{Standard.Deviation}.}
+#'   \item{Transition.Probabilities}{A square matrix of transition probabilities.}
+#' }
+#'
+#' @export
+setClass(
+        Class = "SetSim4M",
+        slots = c(
+                Sim.Length = "numeric",
+                N.States = "integer",
+                Use.HMM = "logical",
+                Distribution = "character",
+                Parameters = "list"
+        )
+)

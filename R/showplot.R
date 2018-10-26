@@ -14,12 +14,12 @@ setMethod(
                 Time.Frame<- range(Observed.Locations$Date)
                 Lon.Extent<- range(Observed.Locations$Lon)
                 Lat.Extent<- range(Observed.Locations$Lat)
-                
+
                 N.Int.Locs<- nrow(interpolatedLocations(object))
                 Time.Step<- interpolationParameters(object)["Time.Step"]
                 Group.Cutoff<- interpolationParameters(object)["Group.Cutoff"]
                 N.Groups<- length(levels(groups(object)))
-                
+
                 cat("",
                     "Observed Locations",
                     "------------------",
@@ -38,9 +38,9 @@ setMethod(
                     "",
                     "Time Differences",
                     sep = "\n")
-      
+
                 print(summary(difftime(object)))
-      
+
                 cat("",
                     "",
                     "Interpolated Locations",
@@ -52,7 +52,7 @@ setMethod(
                     "",
                     sep = "\n"
                     )
-      
+
                 return(invisible())
       }
 )
@@ -76,7 +76,7 @@ setMethod(
                     paste("Angle Zero Inflation:",zeroInflation(object)[["Deflection.Angle"]]),
                     "",
                     sep = "\n")
-                    
+
                return(invisible())
         }
 )
@@ -91,9 +91,9 @@ setMethod(f = "show",
           definition = function(object) {
                 show(data4M(object))
                 show(SetModel4M(object))
-                
+
                 Parameters<- parameterEstimates(object)
-                
+
                 cat("",
                     "",
                     paste("Convergence:",convergence(object)),
@@ -102,9 +102,9 @@ setMethod(f = "show",
                     "Deflection Angle Parameter Estimates",
                     "------------------------------------",
                     sep = "\n")
-                    
+
                 print(round(Parameters$Deflection.Angle.Parameters,4))
-                
+
                 if( zeroInflation(object)[["Deflection.Angle"]] == T ) {
                         cat("",
                             paste("Zero-Inflation Probability:",
@@ -113,10 +113,10 @@ setMethod(f = "show",
                                   ),
                             "",
                             sep = "\n")
-                            
+
                         print(round(Parameters$Zero.Inflation$Angle.Zero.Pars,4))
                 }
-                
+
                 cat("",
                     "",
                     "Step Length Parameter Estimates",
@@ -127,9 +127,9 @@ setMethod(f = "show",
                           "km"),
                     "",
                     sep = "\n")
-                    
+
                 print(round(Parameters$Step.Length.Parameters,4))
-                
+
                 if( zeroInflation(object)[["Step.Length"]] == T ) {
                         cat("",
                             paste("Zero-Inflation Probability:",
@@ -138,7 +138,7 @@ setMethod(f = "show",
                                  ),
                            sep = "\n")
                 }
-                
+
                 cat("",
                     "",
                     "Transition Probabilities",
@@ -147,18 +147,18 @@ setMethod(f = "show",
                     "Transition Probability Matrix",
                     "",
                     sep = "\n")
-                    
+
                 print(round(Parameters$Transition.Probability.Matrix,4))
-                
+
                 cat("",
                     paste("Stationary Distribution / Activity Budget:",
                           paste(round(Parameters$Stationary.Distribution,4),
                                 collapse = " ")
                          ),
                     sep = "\n")
-                    
+
                 return(invisible())
-                
+
           }
 )
 
@@ -211,85 +211,85 @@ setMethod(
                              ignore.case = T,
                              value = T)
                 })
-                
+
                 if( "all" %in% y ) {
                         y<- c("satellite","locations","data")
                 } else {}
-                
+
                 Optional.Args<- list(...)
-                
+
                 if( !("lag" %in% names(Optional.Args)) ) {
                         Optional.Args$lag<- 1
                 } else {}
                 Lag<- Optional.Args$lag; Optional.Args$lag<- NULL
-                        
+
                 if( !("log" %in% names(Optional.Args)) ) {
                         Optional.Args$log<- F
                 } else {}
                 Log<- Optional.Args$log; Optional.Args$log<- NULL
-                
+
                 if( !("N.Grid.Lines" %in% names(Optional.Args)) ) {
                         Optional.Args$N.Grid.Lines<- 100
                 } else {}
                 N.Grid.Lines<- Optional.Args$N.Grid.Lines; Optional.Args$N.Grid.Lines<- NULL
-                
+
                 if( !("N.Greys" %in% names(Optional.Args)) ) {
                         Optional.Args$N.Greys<- 25
                 } else {}
                 N.Greys<- Optional.Args$N.Greys; Optional.Args$N.Greys<- NULL
-                        
-                        
-                        
-                        
-                
+
+
+
+
+
                 if( "satellite" %in% y ) {
                         par(mfrow=c(1,1))
-                        
+
                         Plot.Args<- list(main = "Satellite Locations",
                                          xlab = "Longitude",
                                          ylab = "Latitue",
                                          type = "l",
                                          pch = 20)
                         Plot.Args[names(Optional.Args)]<- Optional.Args
-                        
+
                         do.call(plot,
                                 c(list(x = observedLocations(x)$Lon,
                                        y = observedLocations(x)$Lat),
                                   Plot.Args))
-                        
+
                         y[which(y == "satellite")]<- NA
                         if( any(!is.na(y)) & ask == T ) {
                                 readline("Press <Enter> for next plot. ")
                         } else {}
                 }
-                
-                
+
+
                 if( "locations" %in% y ) {
                         par(mfrow=c(1,1))
-                        
+
                         Plot.Args<- list(main = "Interpolated Locations",
                                          xlab = "Longitude",
                                          ylab = "Latitude",
                                          col = "black")
                         Plot.Args[names(Optional.Args)]<- Optional.Args
                         Plot.Args$type<- "n"
-                        
+
                         Locations<- interpolatedLocations(x)
-                        
+
                         do.call(plot,
                                 c(list(x = range(Locations$Lon),
                                        y = range(Locations$Lat) + c(0,0.2*diff(range(Locations$Lat)))),
                                        Plot.Args))
-                        
+
                         if( !("pch" %in% names(Plot.Args)) ) {
                                 Plot.Args$pch<- 20
                         }
                         Plot.Args$pch<- rep_len(Plot.Args$pch,
                                                 length.out = N.States+1)
-                                                
+
                         Plot.Args$col<- rep_len(Plot.Args$col,
                                                 length.out = N.States+1)
-                        
+
                         if( !("cex" %in% names(Plot.Args)) ) {
                                 Plot.Args$cex<- 1.0
                         }
@@ -300,7 +300,7 @@ setMethod(
                                    function(Loc) {
                                         lines(Loc$Lon,
                                               Loc$Lat)
-                                        
+
                                         if( !((length(Viterbi.Path) == 1) || anyNA(Viterbi.Path)) ) {
                                                 Color.Path<- c(0,
                                                                Viterbi.Path[Viterbi.Path[,2] == Loc$Group[[1]],1],
@@ -308,7 +308,7 @@ setMethod(
                                         } else {
                                                 Color.Path<- 1
                                         }
-                                        
+
                                         points(Loc$Lon,
                                                Loc$Lat,
                                                pch = Plot.Args$pch[Color.Path],
@@ -317,7 +317,7 @@ setMethod(
                                                #col = "black")
                                    })
                         )
-                        
+
                         if( N.States != 0 ) {
                                 legend(x = "top",
                                        legend = paste("State",seq(N.States)),
@@ -325,35 +325,35 @@ setMethod(
                                        pch = Plot.Args$pch[-1],
                                        horiz = T)
                         }
-                        
+
                         y[which(y == "locations")]<- NA
-                        
+
                         if( any(!is.na(y)) & ask == T ) {
                                 readline("Press <Enter> for next plot. ")
                         }
                 }
-                
+
                 if( "data" %in% y ) {
-                        
+
                         Plot.Args<- list(main = "",
                                          xlab = "",
                                          ylab = "")
                         Plot.Args[names(Optional.Args)]<- Optional.Args
-                        
+
                         Movement.Data<- movementData(x)$Movement.Data
-                        
+
                         Step.Length<- Movement.Data$Step.Length
-                        
+
                         Deflection.Angle<- Movement.Data$Deflection.Angle
                         Cartesian.Data.X<- Step.Length*cos(pi/180 * Deflection.Angle)
                         Cartesian.Data.Y<- Step.Length*sin(pi/180 * Deflection.Angle)
 
-                        
+
                         par(mfrow = c(2,1))
-                        
+
                         Plot.Args$col<- grey(seq(1,0,length.out = N.Greys))
                         Plot.Args$main<- "Deflection Angle and Step Length"
-                        
+
                         Cartesian.Density.Values<- MASS::kde2d(Cartesian.Data.X,
                                                          Cartesian.Data.Y,
                                                          n = N.Grid.Lines)
@@ -361,23 +361,23 @@ setMethod(
                                 c(list(x = Cartesian.Density.Values),
                                   Plot.Args)
                                )
-                        
-                        
-                        
+
+
+
                         if( Log == T ) {
                                 Step.Length<- log(Step.Length)
                         }
-                        
+
                         Step.Min<- min(Step.Length)
                         Step.Max<- max(Step.Length)
-                        
+
                         Plot.Args$main<- "Step Length Lag Plot"
                         if( Log == T ) {
                                 Plot.Args$main<- paste("(Log)",Plot.Args$main)
                         }
                         Plot.Args$xlab<- "Step length at time t-1"
                         Plot.Args$ylab<- "Step length at time t"
-                        
+
                         Step.Density.Values<- MASS::kde2d(head(Step.Length,-Lag),
                                                     tail(Step.Length,-Lag),
                                                     n = N.Grid.Lines,
@@ -386,12 +386,12 @@ setMethod(
                                                              Step.Min,
                                                              Step.Max)
                                                     )
-                                                    
+
                         do.call(image,
                                 c(list(x = Step.Density.Values),
                                   Plot.Args)
                                 )
-                        
+
                         if( Log == T ) {
                                 Step.Length<- exp(Step.Length)
                         }
@@ -409,7 +409,7 @@ setMethod(
                               ask = interactive(),
                               ...) {
                 y<- "all"
-                plot(x,y,ask = ask,...)                     
+                plot(x,y,ask = ask,...)
         }
 )
 
@@ -435,33 +435,33 @@ setMethod(f = "plot",
                                 ask = interactive(),
                                 palette = "Set1",
                                 ...) {
-                                
+
                 y<- sapply(y,function(elem) {
                         grep(elem,
                         c("all","satellite","locations","data","residuals"),
                         ignore.case = T,
                         value = T)
                 })
-                
+
                 if( "all" %in% y ) {
                         y<- c("satellite","locations","data","residuals")
                 } else{}
-                
+
                 Plot.Args<- list(...)
-                
+
                 if( "satellite" %in% y ) {
-                
+
                         plot(x = data4M(x),
                              y = "satellite")
-                        
+
                         y[which(y == "satellite")]<- NA
                         if( any(!is.na(y)) & ask == T ) {
                                 readline("Press <Enter> for next plot. ")
                         } else {}
                 } else {}
-                
-                
-                
+
+
+
                 if( "locations" %in% y ) {
                         if( "col" %in% names(Plot.Args) ) {
                                 colors<- rep_len(Plot.Args$col,
@@ -473,7 +473,7 @@ setMethod(f = "plot",
 #                               while( !(answer %in% c("y","n")) ) {
 #                                       answer<- readline("Load package RColorBrewer? [y/n] ")
 #                              }
-#                       
+#
 #                                if( answer == "y" ) {
 #                                        require(RColorBrewer)
 #                                        colors<- c("black",brewer.pal(max(3,nStates(x)),palette))
@@ -484,7 +484,7 @@ setMethod(f = "plot",
                                 warning("Consider installing RColorBrewer for color-coding the state path.")
                                 colors<- "black"
                         }
-                        
+
                         do.call(plot,
                                 c(list(x = data4M(x),
                                      y = "locations",
@@ -498,28 +498,28 @@ setMethod(f = "plot",
                                )
 
                         y[which(y == "locations")]<- NA
-                        
+
                         if( any(!is.na(y)) & ask == T ) {
                                 readline("Press <Enter> for next plot. ")
                         } else {}
                 } else {}
-                
-                
+
+
                 if( "data" %in% y ) {
                         plot(data4M(x),
                              y = "data",
                              ...)
-                        
+
                         y[which(y == "data")]<- NA
                         if( any(!is.na(y)) & ask == T ) {
                                 readline("Press <Enter> for next plot. ")
                         } else {}
                 } else {}
-                
-                
+
+
                 if( "residuals" %in% y ) {
                         par(mfrow = c(2,2))
-                        
+
                         ###
                         ### acf for dist      --   lagplot for dist
                         ### qqplot for theta  --    qqplot for dist
@@ -533,38 +533,38 @@ setMethod(f = "plot",
                                 c(list(x = residuals(x)$Step.Length),
                                   Args)
                                )
-                        
+
                         if( !("lag" %in% names(Args) ) ) {
                                 Args$lag<- 1
                         } else {}
                         Lag<- Args$lag; Args$lag<- NULL
-                        
+
                         if( !("log" %in% names(Args)) ) {
                                 Args$log<- NULL
                         } else {}
-                        
+
                         if( !("N.Grid.Lines" %in% names(Args)) ) {
                                 Args$N.Grid.Lines<- 100
                         } else {}
                         N.Grid.Lines<- Args$N.Grid.Lines; Args$N.Grid.Lines<- NULL
-                        
+
                         if( !("N.Greys" %in% names(Args)) ) {
                                 Args$N.Greys<- 10
                         } else {}
                         N.Greys<- Args$N.Greys; Args$N.Greys<- NULL
-                        
-                        
-                        
-                        
+
+
+
+
                         Args<- list(main = "Step Length Residuals",
                                     xlab = "Residual at time t-1",
                                     ylab = "Residual at time t")
                         Args[names(Plot.Args)]<- Plot.Args
-                        
+
                         Residuals<- residuals(x)$Step.Length
-                        
+
                         Args$col<- grey(seq(1,0,length.out = N.Greys))
-                        
+
                         Residual.Density.Values<- MASS::kde2d(head(Residuals,-Lag),
                                                         tail(Residuals,-Lag),
                                                         n = N.Grid.Lines,
@@ -574,8 +574,8 @@ setMethod(f = "plot",
                                 c(list(x = Residual.Density.Values),
                                   Args)
                                 )
-                                
-                                
+
+
                         Args$main<- "Deflection Angle Q-Q Plot"
                         Args$xlab<- "Uniform(-1,1) Distribution"
                         Args$ylab<- "Residuals"
@@ -586,7 +586,7 @@ setMethod(f = "plot",
                                   Args)
                                )
                         abline(a = 0, b = 1, col = "red")
-                        
+
                         Args$main<- "Step Length Q-Q Plot"
                         do.call(qqplot,
                                 c(list(y = residuals(x)$Step.Length,
@@ -594,18 +594,11 @@ setMethod(f = "plot",
                                   Args)
                                )
                         abline(a = 0, b = 1, col = "red")
-                        
+
                         par(mfrow = c(1,1))
-                        
+
                 }
-                
+
                 return(invisible())
         }
 )
-
-
-
-
-
-
-

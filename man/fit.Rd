@@ -12,8 +12,8 @@
 \S4method{fit}{Data4M,SetModel4M}(object, model, max.tries = 10,
   DLL = "markmodmover", stationary.tolerance = 4, ...)
 
-\S4method{fit}{Data4M,missing}(object, max.tries = 10, DLL = "markmodmover",
-  stationary.tolerance = 4, ...)
+\S4method{fit}{Data4M,missing}(object, max.tries = 10,
+  DLL = "markmodmover", stationary.tolerance = 4, ...)
 }
 \arguments{
 \item{object}{An object of class \code{Data4M}.}

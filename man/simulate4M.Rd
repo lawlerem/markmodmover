@@ -26,5 +26,7 @@ The \code{initialize} method is not meant to be used by the user. Use \code{simu
 }
 \seealso{
 Other Construct4M: \code{\link{data4M}},
-  \code{\link{model4M}}, \code{\link{setModel4M}}
+  \code{\link{model4M}}, \code{\link{setModel4M}},
+  \code{\link{setSim4M}}
 }
+\concept{Construct4M}

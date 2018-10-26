@@ -6,8 +6,8 @@
 \alias{simulate,Model4M-method}
 \title{Simulate data from an object of class \code{Model4M}.}
 \usage{
-\S4method{simulate}{Model4M}(object, nsim = 1, seed = NULL, refit = T,
-  keep.locations = T, keep.data = T, keep.residuals = T,
+\S4method{simulate}{Model4M}(object, nsim = 1, seed = NULL,
+  refit = T, keep.locations = T, keep.data = T, keep.residuals = T,
   Use.HMM = useHMM(object), Set.Model.4M = SetModel4M(object), ...)
 }
 \arguments{

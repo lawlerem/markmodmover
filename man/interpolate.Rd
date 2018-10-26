@@ -8,11 +8,13 @@
 \usage{
 interpolate(object, ...)
 
-\S4method{interpolate}{Data4M}(object, Time.Step, Group.Cutoff = 2 *
-  Time.Step, units = "hrs")
+\S4method{interpolate}{Data4M}(object, method = "linear", Time.Step,
+  Group.Cutoff = 2 * Time.Step, units = "hrs")
 }
 \arguments{
 \item{object}{An object of or inheriting from class \code{Data4M}.}
+
+\item{method}{Which interpolation method to use? Can be linear, fmm, or natural (the last two of which are spline methods).}
 
 \item{Time.Step}{The time interval used in the regular time grid.}
 

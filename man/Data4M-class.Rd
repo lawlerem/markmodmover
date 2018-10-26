@@ -29,5 +29,7 @@ An S4 class to hold and pre-process movement data.
 \seealso{
 Other 4M-classes: \code{\link{Model4M-class}},
   \code{\link{SetModel4M-class}},
+  \code{\link{SetSim4M-class}},
   \code{\link{Simulate4M-class}}
 }
+\concept{4M-classes}

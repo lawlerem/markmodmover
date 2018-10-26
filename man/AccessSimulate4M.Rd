@@ -63,5 +63,7 @@ Get or set slots of an object of class \code{Simulate4M}.
 \seealso{
 Other Access4M: \code{\link{AccessData4M}},
   \code{\link{AccessModel4M}},
-  \code{\link{AccessSetModel4M}}
+  \code{\link{AccessSetModel4M}},
+  \code{\link{AccessSetSim4M}}
 }
+\concept{Access4M}

@@ -6,14 +6,15 @@
 \alias{initialize,SetModel4M-method}
 \alias{setModel4M,missing-method}
 \alias{setModel4M,Model4M-method}
+\alias{setSim4M,missing-method}
 \title{Create or extract a \code{SetModel4M} object.}
 \usage{
 setModel4M(x, ...)
 
-\S4method{initialize}{SetModel4M}(.Object, N.States = 2, Use.HMM = FALSE,
-  Distribution = "gamma", Zero.Inflation = c(Step.Length = FALSE,
-  Deflection.Angle = FALSE), Starting.Values = list(),
-  Parameter.Mapping = list())
+\S4method{initialize}{SetModel4M}(.Object, N.States = 2,
+  Use.HMM = FALSE, Distribution = "gamma",
+  Zero.Inflation = c(Step.Length = FALSE, Deflection.Angle = FALSE),
+  Starting.Values = list(), Parameter.Mapping = list())
 
 \S4method{setModel4M}{missing}(N.States = 2, Use.HMM = FALSE,
   Distribution = "gamma", Zero.Inflation = c(Step.Length = FALSE,
@@ -21,6 +22,9 @@ setModel4M(x, ...)
   Parameter.Mapping = list())
 
 \S4method{setModel4M}{Model4M}(x)
+
+\S4method{setSim4M}{missing}(Sim.Length = 100, N.States = 2,
+  Use.HMM = FALSE, Distribution = "gamma", Parameters = list())
 }
 \arguments{
 \item{x}{An object to coerce to class \code{SetModel4M}. Missing in calls to create a new object.}
@@ -36,6 +40,18 @@ setModel4M(x, ...)
 \item{Starting.Values}{A list holding starting values. All starting values default to randomly picked values, see details and the \code{\link{SetModel4M}} class documentation.}
 
 \item{Parameter.Mapping}{A list holding parameter mapping with the same structure as \code{Starting.Values}. See the TMB documentation for \code{\link{MakeADFun}}.}
+
+\item{Sim.Length}{An integer giving the length of the simulated data.}
+
+\item{Parameters}{A list holding parameter values to simulate from.}
+
+\item{N.States}{An integer giving number of states to use in the model.}
+
+\item{Use.HMM}{A logical value which flags use of an HMM. If true, sets all step length autocorrelation parameters to 0.}
+
+\item{Distribution}{Which distribution should be used for step length? Currently available options are \code{gamma} and \code{log-normal}.}
+
+\item{Zero.Inflation}{A logical vector with names \code{Step.Length} and \code{Deflection.Angle}. \code{TRUE} entries enable zero inflation.}
 }
 \description{
 Creates or extracts an object used to hold a model definition.
@@ -45,5 +61,7 @@ The \code{initialize} function is not meant to be used by the user, use \code{se
 }
 \seealso{
 Other Construct4M: \code{\link{data4M}},
-  \code{\link{model4M}}, \code{\link{simulate4M}}
+  \code{\link{model4M}}, \code{\link{setSim4M}},
+  \code{\link{simulate4M}}
 }
+\concept{Construct4M}
