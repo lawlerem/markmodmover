@@ -37,7 +37,7 @@ setClass(
 #' \describe{
 #'   \item{Tpm.Working.Pars}{An \code{n} by \code{n} matrix.}
 #'   \item{Theta.Working.Pars}{An \code{n} by 2 matrix. The first column is untransformed center, the second is the logit of concentration.}
-#'   \item{Step.Working.Pars}{An \code{n} by 3 matrix. The first column is the log of the intercept, the second is the log of the autocorrelation, the third is the log of the standard deviation.}
+#'   \item{Step.Working.Pars}{An \code{n} by 3 matrix. The first column is the log of the reversion level, the second is the logit of the autocorrelation, the third is the log of the standard deviation.}
 #'   \item{Logit.Step.Zero.Probs}{A length \code{n} vector.}
 #'   \item{Logit.Angle.Zero.Probs}{A length \code{n} vector.}
 #'   \item{Angle.Zero.Working.Pars}{An \code{n} by 2 matrix.}
@@ -143,7 +143,7 @@ setClass(Class = "Simulate4M",
 #' @slot Parameters A named list giving the parameter values to simulate from:
 #' \describe{
 #'   \item{Deflection.Angle.Parameters}{A data.frame with columns \code{Center} and \code{Concentration}.}
-#'   \item{Step.Length.Parameters}{A data.frame with columns \code{Intercept}, \code{Autocorrelation}, and \code{Standard.Deviation}.}
+#'   \item{Step.Length.Parameters}{A data.frame with columns \code{Reversion.Level}, \code{Autocorrelation}, and \code{Standard.Deviation}.}
 #'   \item{Transition.Probabilities}{A square matrix of transition probabilities.}
 #' }
 #'

@@ -58,9 +58,7 @@ Type objective_function<Type>::operator() ()
 			if( i==j ) {
 				tpm(i,j) = 1.0;	// Set diagonal entries equal to one (not free to vary)
 			} else {
-				tpm(i,j) = 1.0 / (
-						1.0 + exp(tpm_working_pars_matrix(i,j))
-					); // Off-diagonals use parameters (free to vary
+				tpm(i,j) = 1.0 / (1.0 + exp(-1.0*tpm_working_pars_matrix(i,j))); // Off-diagonals use parameters (free to vary
 			}
 			row_sum += tpm(i,j);	// Adds entry to row sum
 		}
@@ -159,9 +157,7 @@ Type objective_function<Type>::operator() ()
 	//
 	//
 	array<Type> theta_pars = theta_working_pars;
-	theta_pars.col(1) = 1/(
-			1+exp(theta_working_pars.col(1))
-		);	// concentration between 0 and 1
+	theta_pars.col(1) = 1.0/(1.0+exp(-1.0*theta_working_pars.col(1)));	// concentration between 0 and 1
 
 	vector<Type> angle_zero_probs(n_state);
 	array<Type> angle_zero_pars = angle_zero_working_pars;
@@ -341,11 +337,11 @@ Type objective_function<Type>::operator() ()
 	vector<Type> acf_pars = acf_working_pars;
 	if( step_distribution == 1 ) {
 		for(int i=0; i<n_state; i++) {
-			acf_pars(i) = exp(acf_working_pars(i));
+			acf_pars(i) = 1.0/(1.0 + exp(-1.0*acf_working_pars(i)));
 		}
 	} else if( step_distribution == 2 ) {
 		for(int i=0; i<n_state; i++) {
-			acf_pars(i) = acf_working_pars(i);
+			acf_pars(i) = 2.0/(1.0 + exp(-1.0*acf_working_pars(i))) - 1.0;
 		}
 	}
 	vector<Type> step_zero_probs = exp(logit_step_zero_probs)/(1+exp(logit_step_zero_probs));
@@ -383,7 +379,7 @@ Type objective_function<Type>::operator() ()
 						if( st_dist(k) == 0.0 ) {
 							dist_array(i,j,k) = 0.0;
 						} else if( k == grouping(grp) ) {		// If k is in grouping, then st_dist(k) is part of a new contiguous block
-							Type mean = acf_pars(i)*st_dist_starts(grp) + dist_pars(i,0);
+							Type mean = acf_pars(i)*st_dist_starts(grp) + dist_pars(i,0)*(1.0 - acf_pars(i));
 						//Type mean = acf_pars(i) + dist_pars(i,0);
 							Type sd = dist_pars(i,1);
 
@@ -392,7 +388,7 @@ Type objective_function<Type>::operator() ()
 										pow(mean/sd,2),
 										pow(sd,2)/mean);
 						} else {
-							Type mean = acf_pars(i)*st_dist(k-1) + dist_pars(i,0);
+							Type mean = acf_pars(i)*st_dist(k-1) + dist_pars(i,0)*(1.0 - acf_pars(i));
 							Type sd = dist_pars(i,1);
 
 							dist_array(i,j,k) =
@@ -417,13 +413,13 @@ Type objective_function<Type>::operator() ()
 						} else if( k == grouping(grp) ) {
 							dist_array(i,j,k) =
 								dnorm(log(st_dist(k)),
-									acf_pars(i)*log(st_dist_starts(grp)) + dist_pars(i,0),
+									acf_pars(i)*log(st_dist_starts(grp)) + dist_pars(i,0)*(1.0 - acf_pars(i)),
 									dist_pars(i,1),
 									false);
 						} else {
 							dist_array(i,j,k) =
 								dnorm(log(st_dist(k)),
-									acf_pars(i)*log(st_dist(k-1)) + dist_pars(i,0),
+									acf_pars(i)*log(st_dist(k-1)) + dist_pars(i,0)*(1.0 - acf_pars(i)),
 									dist_pars(i,1),
 									false);
 						}
@@ -475,7 +471,7 @@ Type objective_function<Type>::operator() ()
 						if( st_dist(k) == 0.0 ) {
 							dist_cdf_array(i,j,k) = 0.0;
 						} else if( k == grouping(grp) ) {
-							Type mean = acf_pars(i)*st_dist_starts(grp) + dist_pars(i,0);
+							Type mean = acf_pars(i)*st_dist_starts(grp) + dist_pars(i,0)*(1.0 - acf_pars(i));
 							Type sd = dist_pars(i,1);
 
 							dist_cdf_array(i,j,k) =
@@ -483,7 +479,7 @@ Type objective_function<Type>::operator() ()
 									pow(mean/sd,2),
 									pow(sd,2)/mean);
 						} else {
-							Type mean = acf_pars(i)*st_dist(k-1) + dist_pars(i,0);
+							Type mean = acf_pars(i)*st_dist(k-1) + dist_pars(i,0)*(1.0 - acf_pars(i));
 							Type sd = dist_pars(i,1);
 
 							dist_cdf_array(i,j,k) =
@@ -508,12 +504,12 @@ Type objective_function<Type>::operator() ()
 						} else if( k == grouping(grp) ) {
 							dist_cdf_array(i,j,k) =
 								pnorm(log(st_dist(k)),
-									acf_pars(i)*log(st_dist_starts(grp)) + dist_pars(i,0),
+									acf_pars(i)*log(st_dist_starts(grp)) + dist_pars(i,0)*(1.0 - acf_pars(i)),
 									dist_pars(i,1));
 						} else {
 							dist_cdf_array(i,j,k) =
 								pnorm(log(st_dist(k)),
-									acf_pars(i)*log(st_dist(k-1)) + dist_pars(i,0),
+									acf_pars(i)*log(st_dist(k-1)) + dist_pars(i,0)*(1.0 - acf_pars(i)),
 									dist_pars(i,1));
 						}
 					} else {
@@ -563,7 +559,7 @@ Type objective_function<Type>::operator() ()
 				if( step_zero_inflation == 1 && rand(k) < step_zero_probs(sim_state_path(k)) ) {
 					sim_dist_series(k+1) = 0.0;
 				} else {
-					Type mean = acf_pars(sim_state_path(k)-1) * sim_dist_series(k-1+1) + dist_pars(sim_state_path(k)-1,0);
+					Type mean = acf_pars(sim_state_path(k)-1) * sim_dist_series(k-1+1) + dist_pars(sim_state_path(k)-1,0)*(1.0 - acf_pars(sim_state_path(k)-1));
 					Type sd = dist_pars(sim_state_path(k)-1,1);
 
 					sim_dist_series(k+1) = rgamma(pow(mean/sd,2),
@@ -576,7 +572,7 @@ Type objective_function<Type>::operator() ()
 			for(int k=0; k<n_obs; k++) {
 				int state = sim_state_path(k) - 1; // need minus 1 since index starts at 0
 
-				mu(k) = dist_pars(state,0);
+				mu(k) = dist_pars(state,0)*(1.0 - acf_pars(sim_state_path(k)-1));
 				sd(k) = dist_pars(state,1);
 			}
 

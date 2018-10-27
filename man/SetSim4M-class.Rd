@@ -21,7 +21,7 @@ An S4 class to hold model definition parameters for simulation.
 \item{\code{Parameters}}{A named list giving the parameter values to simulate from:
 \describe{
   \item{Deflection.Angle.Parameters}{A data.frame with columns \code{Center} and \code{Concentration}.}
-  \item{Step.Length.Parameters}{A data.frame with columns \code{Intercept}, \code{Autocorrelation}, and \code{Standard.Deviation}.}
+  \item{Step.Length.Parameters}{A data.frame with columns \code{Reversion.Level}, \code{Autocorrelation}, and \code{Standard.Deviation}.}
   \item{Transition.Probabilities}{A square matrix of transition probabilities.}
 }}
 }}

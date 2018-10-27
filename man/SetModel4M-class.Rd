@@ -22,7 +22,7 @@ An S4 class to hold model definition and fitting parameters.
 \describe{
   \item{Tpm.Working.Pars}{An \code{n} by \code{n} matrix.}
   \item{Theta.Working.Pars}{An \code{n} by 2 matrix. The first column is untransformed center, the second is the logit of concentration.}
-  \item{Step.Working.Pars}{An \code{n} by 3 matrix. The first column is the log of the intercept, the second is the log of the autocorrelation, the third is the log of the standard deviation.}
+  \item{Step.Working.Pars}{An \code{n} by 3 matrix. The first column is the log of the reversion level, the second is the logit of the autocorrelation, the third is the log of the standard deviation.}
   \item{Logit.Step.Zero.Probs}{A length \code{n} vector.}
   \item{Logit.Angle.Zero.Probs}{A length \code{n} vector.}
   \item{Angle.Zero.Working.Pars}{An \code{n} by 2 matrix.}

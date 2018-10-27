@@ -233,7 +233,7 @@ setMethod(f = "fit",
                 Parameter.Estimates<- list(
                         Deflection.Angle.Parameters = data.frame(Center = Report$theta_pars[,1],
                                                                  Concentration = Report$theta_pars[,2]),
-                        Step.Length.Parameters = data.frame(Intercept = Report$dist_pars[,1],
+                        Step.Length.Parameters = data.frame(Reversion.Level = Report$dist_pars[,1],
                                                             Autocorrelation = Report$acf_pars,
                                                             Standard.Deviation = Report$dist_pars[,2]),
                         Transition.Probability.Matrix = Report$tpm,

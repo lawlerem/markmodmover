@@ -788,7 +788,7 @@ setMethod(f = "simulate",
                         }
 
                         dimnames(Angle.Parameters)[[2]]<- c("Center","Concentration")
-                        dimnames(Step.Parameters)[[2]]<- c("Intercept","Autocorrelation","Standard.Deviation")
+                        dimnames(Step.Parameters)[[2]]<- c("Reversion.Level","Autocorrelation","Standard.Deviation")
                         dimnames(Angle.Zero.Pars)[[2]]<- c("Center","Concentration")
 
 
@@ -867,17 +867,19 @@ setMethod(f = "simulate",
                 for( i in seq(nrow(Tpm.Working.Pars)) ) {
                     Tpm.Working.Pars[i,]<- Tpm.Working.Pars[i,] / Tpm.Working.Pars[i,i]
                 }
-                Tpm.Working.Pars<- log(1/Tpm.Working.Pars - 1)
+                Tpm.Working.Pars<- -log(1/Tpm.Working.Pars - 1)
+
 
                 Theta.Working.Pars<- parameters(object)$Deflection.Angle.Parameters
-                Theta.Working.Pars[,2]<- log(1/Theta.Working.Pars[,2] - 1)
+                Theta.Working.Pars[,2]<- -log(1/Theta.Working.Pars[,2] - 1)
 
                 Step.Working.Pars<- parameters(object)$Step.Length.Parameters
                 if( distribution(object) == "gamma" ) {
                     Step.Working.Pars[,1]<- log(Step.Working.Pars[,1])
-                    Step.Working.Pars[,2]<- log(Step.Working.Pars[,2])
+                    Step.Working.Pars[,2]<- -log(1/Step.Working.Pars[,2] - 1)
                     Step.Working.Pars[,3]<- log(Step.Working.Pars[,3]-0.01)
                 } else if( distribution(object) == "log-normal" ) {
+                    Step.Working.Pars[,2]<- -log(1/Step.Working.Pars[,2] - 1)
                     Step.Working.Pars[,3]<- log(Step.Working.Pars[,3]-0.01)
                 } else {}
 
