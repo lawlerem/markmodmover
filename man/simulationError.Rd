@@ -4,12 +4,15 @@
 \alias{simulationError}
 \alias{rmse}
 \alias{mae}
+\alias{bias}
 \alias{stateError}
 \title{Compute simulation parameter errors.}
 \usage{
 rmse(x)
 
 mae(x)
+
+bias(x)
 
 stateError(x)
 }

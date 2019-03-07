@@ -1013,6 +1013,7 @@ setMethod(f = "simulate",
 #' Compute simulation parameter errors.
 #'
 #' @param x An object of class \code{Simulate4M}.
+#' @param center.fun What function should be used to comptue the center? Defaults to mean.
 #'
 #' @return Functions \code{rmse} and \code{mae} return a list of parameter errors. Function \code{stateError} returns a numeric vector containing the percentage of state estimates that are not correct.
 #'
@@ -1029,14 +1030,14 @@ NULL
 
 #' @noRd
 setGeneric(name = "simEstErrors",
-           def = function(x,type) standardGeneric("simEstErrors")
+           def = function(x,type,center.fun) standardGeneric("simEstErrors")
 )
 #' @noRd
 setMethod(f = "simEstErrors",
           signature = "Simulate4M",
-          definition = function(x,type) {
-                if( !(type %in% c("rmse","mae")) ) {
-                        stop("Error type must be either rmse or mae.")
+          definition = function(x,type,center.fun=mean) {
+                if( !(type %in% c("rmse","mae","bias")) ) {
+                        stop("Error type must be either rmse, mae, or bias.")
                 } else {}
 
                 True.Parameters<- parameterEstimates(x)
@@ -1048,9 +1049,11 @@ setMethod(f = "simEstErrors",
                                 diffs<- diffs^2
                         } else if( type == "mae" ) {
                                 diffs<- abs(diffs)
+                        } else if( type == "bias" ) {
+                                diffs<- diffs
                         } else {}
 
-                        error<- apply(diffs, MARGIN = mean.margin,mean)
+                        error<- apply(diffs, MARGIN = mean.margin,center.fun)
                         if( type == "rmse" ) {
                                 error<- sqrt(error)
                         } else {}
@@ -1089,23 +1092,34 @@ setMethod(f = "simEstErrors",
 #' @export
 #' @rdname simulationError
 setGeneric(name = "rmse",
-           def = function(x) standardGeneric("rmse")
+           def = function(x,...) standardGeneric("rmse")
 )
 #' @export
 setMethod(f = "rmse",
           signature = "Simulate4M",
-          def = function(x) return(simEstErrors(x,type = "rmse"))
+          def = function(x,...) return(simEstErrors(x,type = "rmse",...))
 )
 
 #' @export
 #' @rdname simulationError
 setGeneric(name = "mae",
-           def = function(x) standardGeneric("mae")
+           def = function(x,...) standardGeneric("mae")
 )
 #' @export
 setMethod(f = "mae",
           signature = "Simulate4M",
-          def = function(x) return(simEstErrors(x,type = "mae"))
+          def = function(x,...) return(simEstErrors(x,type = "mae",...))
+)
+
+#' @export
+#' @rdname simulationError
+setGeneric(name = "bias",
+           def = function(x,...) standardGeneric("bias")
+)
+#' @export
+setMethod(f = "bias",
+          signature = "Simulate4M",
+          def = function(x,...) return(simEstErrors(x,type = "bias",...))
 )
 
 #' @export

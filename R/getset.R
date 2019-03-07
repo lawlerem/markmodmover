@@ -1455,6 +1455,18 @@ setReplaceMethod(f = "refitEnvironment",
                  }
 )
 
+#' @export
+#' @rdname AccessSimulate4M
+setMethod(f = "length",
+          signature = "Simulate4M",
+          definition = function(x) return(dim(simulatedData(x))[[3]])
+)
+
+
+
+
+
+
 
 
 
