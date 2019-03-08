@@ -1,5 +1,5 @@
 Package: markmodmover
-Version: 0.0.0.9000
+Version: 0.8.0
 Date: 2017-04-04
 Title: Analyze animal movement data using the Markov-modulated movement model.
 Description: Tools for the analysis of animal movement data using a 
@@ -23,7 +23,7 @@ Suggests:
     RColorBrewer,
     knitr,
     rmarkdown
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Collate: 
     'classes.R'
     'cpp.R'

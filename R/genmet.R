@@ -1035,7 +1035,7 @@ setGeneric(name = "simEstErrors",
 #' @noRd
 setMethod(f = "simEstErrors",
           signature = "Simulate4M",
-          definition = function(x,type,center.fun=mean) {
+          definition = function(x,type,center.fun) {
                 if( !(type %in% c("rmse","mae","bias")) ) {
                         stop("Error type must be either rmse, mae, or bias.")
                 } else {}
@@ -1097,7 +1097,7 @@ setGeneric(name = "rmse",
 #' @export
 setMethod(f = "rmse",
           signature = "Simulate4M",
-          def = function(x,...) return(simEstErrors(x,type = "rmse",...))
+          def = function(x,center.fun=mean) return(simEstErrors(x,type = "rmse",center.fun))
 )
 
 #' @export
@@ -1108,7 +1108,7 @@ setGeneric(name = "mae",
 #' @export
 setMethod(f = "mae",
           signature = "Simulate4M",
-          def = function(x,...) return(simEstErrors(x,type = "mae",...))
+          def = function(x,center.fun=mean) return(simEstErrors(x,type = "mae",center.fun))
 )
 
 #' @export
@@ -1119,7 +1119,7 @@ setGeneric(name = "bias",
 #' @export
 setMethod(f = "bias",
           signature = "Simulate4M",
-          def = function(x,...) return(simEstErrors(x,type = "bias",...))
+          def = function(x,center.fun=mean) return(simEstErrors(x,type = "bias",center.fun))
 )
 
 #' @export
