@@ -115,7 +115,7 @@ setMethod(f = "interpolateSummary",
                                                 tT<- as.numeric(tail(group$Date,1))
                                                 t<- seq(t0, tT, by = Time.Step)
 
-                                                Interpolated.Locations<- data.frame(Date = as.POSIXct(t,origin="1970-01-01"))
+                                                Interpolated.Locations<- data.frame(Date = as.POSIXct(t,origin="1970-01-01",tz="UTC"))
                                                 if( nrow(Interpolated.Locations) < 3 ) {
                                                         return(NULL)
                                                 } else {}
@@ -515,7 +515,7 @@ setMethod(f = "interpolate",
                                                     stop("Method must be either linear, fmm, or natural.")
                                                 }
 
-                                                Interpolated.Locations<- data.frame(Date = as.POSIXct(t,origin="1970-01-01"),
+                                                Interpolated.Locations<- data.frame(Date = as.POSIXct(t,origin="1970-01-01",tz="UTC"),
                                                                                     Lon = Interpolated.Lon,
                                                                                     Lat = Interpolated.Lat
                                                                                 )

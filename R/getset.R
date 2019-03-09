@@ -48,7 +48,7 @@ setMethod(
                 } else {}
 
                 if( !("POSIXct" %in% class(Data[,Data.Date])) ) {
-                        Data[,Data.Date]<- as.POSIXct(Data[,Data.Date])
+                        Data[,Data.Date]<- as.POSIXct(Data[,Data.Date],tz="UTC")
                 } else {}
 
                 ###
@@ -1527,7 +1527,8 @@ setMethod(f = "[[",
                 observedLocations(new.Model4M)<- cbind(Date = interpolationParameters(x)[["Time.Step"]]*seq(nrow(simulatedLocations(x)[,,i])),
                                                        data.frame(simulatedLocations(x)[,,i]))
                 observedLocations(new.Model4M)$Date<- as.POSIXct(observedLocations(new.Model4M)$Date,
-                                                                 origin = observedLocations(x)$Date[[1]])
+                                                                 origin = observedLocations(x)$Date[[1]],
+                                                                 tz = "UTC")
 
                 interpolatedLocations(new.Model4M)<- data.frame(simulatedLocations(x)[,,i])
                 movementData(new.Model4M)$Movement.Data<- data.frame(simulatedData(x)[,,i])
