@@ -8,16 +8,18 @@
 \alias{stateError}
 \title{Compute simulation parameter errors.}
 \usage{
-rmse(x)
+rmse(x, ...)
 
-mae(x)
+mae(x, ...)
 
-bias(x)
+bias(x, ...)
 
 stateError(x)
 }
 \arguments{
 \item{x}{An object of class \code{Simulate4M}.}
+
+\item{center.fun}{What function should be used to comptue the center? Defaults to mean.}
 }
 \value{
 Functions \code{rmse} and \code{mae} return a list of parameter errors. Function \code{stateError} returns a numeric vector containing the percentage of state estimates that are not correct.
