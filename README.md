@@ -1,7 +1,5 @@
 # markmodmover
 
-Install using devtools::install_github("lawlerem/markmodmover").
+Install using devtools::install_github("lawlerem/markmodmover",build_vignettes=F).
 
-If you want the vignette, use the command 
-
-devtools::install_github("lawlerem/markmodmover",build_opts=c("--no-resave-data","--no-manual"))
+If you want the vignette, use the build_vignettes=T
